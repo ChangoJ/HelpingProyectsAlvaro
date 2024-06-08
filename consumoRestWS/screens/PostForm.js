@@ -3,91 +3,80 @@ import { useNavigation } from '@react-navigation/native';
 import { Button, Input, Text } from '@rneui/base'
 import {useState} from 'react'
 import {createPostService} from '../services/TestServices'
-import {insertTiposServices} from '../services/TestServices'
+
 export const PostForm = () => {
     const navigation = useNavigation();
-    const [subject,setSubject]=useState();
-    const [message,setMessage]=useState();
+    const [marcador1,setMarcador1]=useState();
+    const [marcador2,setMarcador2]=useState();
+    const [codigoUsuario,setCodigoUsuario]=useState();
+    const [codigoPartido,setCodigoPartido]=useState();
 
-    const [codigo,setCodigos]=useState();
-    const [descripcion,setDescripcion]=useState();
+    const [codigoEquipo1,setCodigoEquipo1]=useState();
+    const [codigoEquipo2,setCodigoEquipo2]=useState();
+
+    setCodigoUsuario("1802825487");
+    setCodigoPartido(3);
+    setCodigoEquipo1("218");
+    setCodigoEquipo2("862");
+
+
 
     const createPost=()=>{
-        console.log("creando post "+subject+" "+message);
+        console.log("creando pronostico "+marcador1+" "+marcador2);
         createPostService({
-            title:subject,
-            body:message
-        });
+            codigoUsuario:codigoUsuario,
+            codigoPartido:codigoPartido,
+            codigoEquipo1:codigoEquipo1,
+            codigoEquipo2:codigoEquipo2,
+            marcadorEquipo1:marcador1,
+            marcadorEquipo2:marcador2
+        });()=>{
+            Alert.alert("CONFIRMACION","Se ha ingresado un nuevo pronostico");
+            console.log("Pronostico creado exitosamente");
     }
-    const createTipoDoc=()=>{
-        console.log("creando tipo "+codigo+" "+descripcion);
-        insertTiposServices({
-            codigo:codigo,
-            descripcion:descripcion
-        }, 
-        ()=>{
-            Alert.alert("CONFIRMACION","Se ha ingresado un nuevo tipo de documento");
-            console.log("Tipo de documento creado exitosamente");});
     }
     return <View style={styles.container}>
         <View style={styles.textContainer}>
-            <Text h4="true">NUEVO MENSAJE</Text>
+            <Text style={styles.textContainer3} h4="true">PRONOSTICOS</Text>
         </View>
-        <View style={styles.textContainer}>
-            <Text>Ingrese tipo de documento</Text>
+        <View style={styles.textContainer2}>
+        <Text h4="true">Usuario: Rosa Solis</Text>
         </View>
-        <View>
+        <View style={styles.textContainer2}>
+        </View>
+        <View style={styles.textContainer2}>
+        <Text h4="true">Equipo 1: Ecuador</Text>
         <Input
-                placeholder='TIPO'
-                value={codigo}
+                placeholder='Marcador equipo 1'
+                value={marcador1}
                 onChangeText={(value)=>{
-                    setCodigos(value);
+                    setMarcador1(value);
                 }}
             />
-            <Input
-                placeholder='DESCRIPCION'
-                value={descripcion}
+        </View>
+        <View style={styles.textContainer2}>
+        <Text h4="true">Equipo 2: Venezuela</Text>
+        <Input
+                placeholder='Marcador equipo 2'
+                value={marcador2}
                 onChangeText={(value)=>{
-                    setDescripcion(value);
+                    setMarcador2(value);
                 }}
-            />
-            <Button 
-                title="Guardar"
-                onPress={createTipoDoc}
             />
         </View>
         <View style={styles.formContainer}>            
-            <Input
-                placeholder='TITULO'
-                value={subject}
-                onChangeText={(value)=>{
-                    setSubject(value);
-                }}
-            />
-            <Input
-                placeholder='MENSAJE'
-                value={message}
-                onChangeText={(value)=>{
-                    setMessage(value);
-                }}
-            />
             <Button 
                 title="Guardar"
                 onPress={createPost}
             />
-            <Button
-                title="Ir a TestWebServices"
-                onPress={() => navigation.navigate('TestWebServicesNav')}
-            />
         </View>
-
     </View>
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        backgroundColor: '#fff',
+        backgroundColor: 'ghostwhite',
         justifyContent: 'center',
     },
     textContainer: {
@@ -95,12 +84,23 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center',
-        marginVertical: 10
+        marginVertical: 10,
     },
     formContainer: {
-        flex: 7,
-        flexDirection:'column',
-        justifyContent:'center'
+        flex: 19,
+        flexDirection:'row',
+        justifyContent:'center',
 
-    }
+    },
+    textContainer2: {
+        flex: 2,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems:'center',
+        marginVertical: 10
+    },
+    textContainer3: {
+        borderWidth: 2.3,
+        borderColor: '#DAA520',
+    },
 });
